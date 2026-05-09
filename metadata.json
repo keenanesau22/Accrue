@@ -1,0 +1,7 @@
+{
+  "name": "Accrue - Master Your Money (Version 6)",
+  "description": "The finance equivalent of Duolingo. Learn budgeting, investing, and wealth management through gamified, bite-sized lessons powered by AI.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
