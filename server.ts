@@ -5,7 +5,7 @@ import rateLimit from 'express-rate-limit';
 import { Configuration, PlaidApi, PlaidEnvironments } from 'plaid';
 import dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import Anthropic from '@anthropic-ai/sdk';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createServer as createViteServer } from 'vite';
@@ -23,7 +23,7 @@ const REQUIRED_ENV = [
   'VITE_SUPABASE_ANON_KEY',
   'VITE_PLAID_CLIENT_ID',
   'VITE_PLAID_SECRET',
-  'GEMINI_API_KEY',
+  'ANTHROPIC_API_KEY',
 ];
 for (const key of REQUIRED_ENV) {
   if (!process.env[key]) {
@@ -52,8 +52,7 @@ const plaidClient = new PlaidApi(
   })
 );
 
-const genAI  = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-const model  = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! });
 
 // ============================================================
 // HELPERS
@@ -314,9 +313,19 @@ Guidelines:
         parts: [{ text: m.content }],
       }));
 
-      const chat  = model.startChat({ history: chatHistory, systemInstruction: systemPrompt });
-      const result= await chat.sendMessage(message);
-      const reply = result.response.text();
+    const result = await anthropic.messages.create({
+  model: 'claude-sonnet-4-5',
+  max_tokens: 1024,
+  system: systemPrompt,
+  messages: [
+    ...chatHistory.map((m: any) => ({
+      role: m.role === 'model' ? 'assistant' : 'user',
+      content: m.parts[0].text,
+    })),
+    { role: 'user', content: message },
+  ],
+});
+const reply = (result.content[0] as any).text;
 
       // Save both messages to Supabase
       await supabase.from('finny_messages').insert([
@@ -334,7 +343,7 @@ Guidelines:
   // ============================================================
   // 404 catch-all for API routes
   // ============================================================
-  app.all(['/plaid/*', '/ai/*'], (req, res) => {
+  app.all(['/plaid/*path', '/ai/*path'], (req, res) => {
     res.status(404).json({ error: 'Endpoint not found', path: req.path });
   });
 

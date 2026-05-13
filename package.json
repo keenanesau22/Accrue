@@ -14,7 +14,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@google/genai": "^1.35.0",
+    "@anthropic-ai/sdk": "^0.39.0",
     "@sentry/react": "^8.0.0",
     "@supabase/supabase-js": "^2.103.0",
     "@tailwindcss/vite": "^4.3.0",
