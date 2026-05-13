@@ -14,9 +14,12 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@google/generative-ai": "^1.1.0",
-    "@sentry/react": "^7.80.0",
+    "@google/genai": "^1.35.0",
+    "@sentry/react": "^8.0.0",
     "@supabase/supabase-js": "^2.103.0",
+    "@tailwindcss/vite": "^4.3.0",
+    "@tanstack/react-query": "^5.0.0",
+    "canvas-confetti": "^1.9.4",
     "cors": "^2.8.5",
     "currency.js": "^2.0.4",
     "date-fns": "^3.0.6",
@@ -27,18 +30,18 @@
     "helmet": "^7.1.0",
     "immer": "^10.0.3",
     "lucide-react": "^0.562.0",
+    "motion": "^12.38.0",
     "plaid": "^41.4.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-plaid-link": "^3.6.0",
-    "react-query": "^4.36.1",
+    "react-plaid-link": "^4.0.0",
     "recharts": "^3.8.1",
     "tsx": "^4.21.0",
     "zod": "^3.22.4",
     "zustand": "^4.4.7"
   },
   "devDependencies": {
-    "@testing-library/react": "^14.2.0",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^25.6.0",
@@ -53,10 +56,10 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.3",
+    "tailwindcss": "^4.3.0",
     "typescript": "^5.4.5",
-    "vite": "^5.2.11",
-    "vitest": "^1.2.0"
+    "vite": "^8.0.11",
+    "vitest": "^4.1.5"
   },
   "engines": {
     "node": ">=18.0.0"
